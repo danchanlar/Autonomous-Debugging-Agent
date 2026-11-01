@@ -1,0 +1,9 @@
+[
+  {
+    "iteration": 1,
+    "status": "fix_applied",
+    "test_errors": "FFF                                                                      [100%]\n================================== FAILURES ===================================\n________________________________ test_positive ________________________________\n\n    def test_positive():\n>       assert add(2, 3) == 5\nE       assert -1 == 5\nE        +  where -1 = add(2, 3)\n\ntest_buggy_code.py:5: AssertionError\n________________________________ test_negative ________________________________\n\n    def test_negative():\n>       assert add(-2, 3) == 1\nE       assert -5 == 1\nE        +  where -5 = add(-2, 3)\n\ntest_buggy_code.py:9: AssertionError\n__________________________________ test_zero __________________________________\n\n    def test_zero():\n>       assert add(0, 5) == 5\nE       assert -5 == 5\nE        +  where -5 = add(0, 5)\n\ntest_buggy_code.py:13: AssertionError\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_positive - assert -1 == 5\nFAILED test_buggy_code.py::test_negative - assert -5 == 1\nFAILED test_buggy_code.py::test_zero - assert -5 == 5\n3 failed in 0.08s\n",
+    "original_code": "def add(a, b):\n    return a - b",
+    "corrected_code": "def add(a, b):\n    return a + b"
+  }
+]
