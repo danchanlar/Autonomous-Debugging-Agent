@@ -1,0 +1,18 @@
+{
+  "model": "qwen2.5-coder:1.5b",
+  "timestamp": "20261105_182315_363765",
+  "max_iterations": 5,
+  "status": "success",
+  "history": [
+    {
+      "iteration": 1,
+      "status": "applied",
+      "feedback": "Patch accepted",
+      "test_errors": "FFF                                                                      [100%]\n================================== FAILURES ===================================\n________________________________ test_average _________________________________\n\n    def test_average():\n        assert calculate_average([2, 4, 6]) == 4\n>       assert calculate_average([]) == 0\n               ^^^^^^^^^^^^^^^^^^^^^\n\ntest_buggy_code.py:7: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nnumbers = []\n\n    def calculate_average(numbers):\n>       return sum(numbers) / len(numbers)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       ZeroDivisionError: division by zero\n\nbuggy_code.py:3: ZeroDivisionError\n______________________________ test_safe_divide _______________________________\n\n    def test_safe_divide():\n        assert safe_divide(10, 2) == 5\n>       assert safe_divide(5, 0) is None\n               ^^^^^^^^^^^^^^^^^\n\ntest_buggy_code.py:13: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\na = 5, b = 0\n\n    def safe_divide(a, b):\n>       return a / b\n               ^^^^^\nE       ZeroDivisionError: division by zero\n\nbuggy_code.py:7: ZeroDivisionError\n_________________________________ test_clamp __________________________________\n\n    def test_clamp():\n        assert clamp(5, 0, 10) == 5\n>       assert clamp(-3, 0, 10) == 0\nE       assert 1 == 0\nE        +  where 1 = clamp(-3, 0, 10)\n\ntest_buggy_code.py:19: AssertionError\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_average - ZeroDivisionError: division by zero\nFAILED test_buggy_code.py::test_safe_divide - ZeroDivisionError: division by ...\nFAILED test_buggy_code.py::test_clamp - assert 1 == 0\n3 failed in 0.08s\n",
+      "original_code": "\ndef calculate_average(numbers):\n    return sum(numbers) / len(numbers)\n\n\ndef safe_divide(a, b):\n    return a / b\n\n\ndef clamp(value, minimum, maximum):\n    if value <= minimum:\n        return minimum + 1\n    if value >= maximum:\n        return maximum - 1\n    return value\n",
+      "proposed_code": "def calculate_average(numbers):\n    if len(numbers) == 0:\n        return 0\n    return sum(numbers) / len(numbers)\n\n\ndef safe_divide(a, b):\n    if b == 0:\n        return None\n    return a / b\n\n\ndef clamp(value, minimum, maximum):\n    if value < minimum:\n        return minimum\n    if value > maximum:\n        return maximum\n    return value",
+      "diff": "--- original\n+++ proposed\n@@ -1,15 +1,18 @@\n-\n def calculate_average(numbers):\n+    if len(numbers) == 0:\n+        return 0\n     return sum(numbers) / len(numbers)\n \n \n def safe_divide(a, b):\n+    if b == 0:\n+        return None\n     return a / b\n \n \n def clamp(value, minimum, maximum):\n-    if value <= minimum:\n-        return minimum + 1\n-    if value >= maximum:\n-        return maximum - 1\n+    if value < minimum:\n+        return minimum\n+    if value > maximum:\n+        return maximum\n     return value"
+    }
+  ],
+  "rollback": false
+}
