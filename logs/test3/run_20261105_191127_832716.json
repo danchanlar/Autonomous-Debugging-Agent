@@ -1,0 +1,64 @@
+{
+  "version": "3.3",
+  "model": "qwen2.5-coder:1.5b",
+  "timestamp": "20261105_191127_832716",
+  "max_iterations": 5,
+  "status": "failed",
+  "history": [
+    {
+      "iteration": 1,
+      "target": "factorial",
+      "status": "applied",
+      "feedback": "Patch accepted",
+      "test_errors": "FFF                                                                      [100%]\n================================== FAILURES ===================================\nE   RecursionError: maximum recursion depth exceeded\n!!! Recursion error detected, but the origin of the recursion could not be located.\n  Displaying first and last 10 stack frames out of 962.\n  Pass `--full-trace` to see all frames.\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\buggy_code.py:5: RecursionError: maximum recursion depth exceeded\nE   assert 1 == 5\n     +  where 1 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 1 == 5\nE   IndexError: list index out of range\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\buggy_code.py:17: IndexError: list index out of range\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_factorial - RecursionError: maximum recursion...\nFAILED test_buggy_code.py::test_fibonacci - assert 1 == 5\nFAILED test_buggy_code.py::test_recursive_sum - IndexError: list index out of...\n3 failed in 0.12s\n",
+      "original_code": "\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 3)\n\n\ndef recursive_sum(numbers):\n    if len(numbers) == 1:\n        return numbers[0]\n    return numbers[0] + recursive_sum(numbers[1:-1])\n",
+      "proposed_code": "def factorial(n):\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers\")\n    elif n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    return n * factorial(n - 1)",
+      "diff": "--- original\n+++ proposed\n@@ -1,6 +1,10 @@\n \n def factorial(n):\n-    if n == 1:\n+    if n < 0:\n+        raise ValueError(\"Factorial is not defined for negative numbers\")\n+    elif n == 0:\n+        return 1\n+    elif n == 1:\n         return 1\n     return n * factorial(n - 1)\n ",
+      "post_patch_errors": ".FF                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 1 == 5\n     +  where 1 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 1 == 5\nE   IndexError: list index out of range\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\buggy_code.py:21: IndexError: list index out of range\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 1 == 5\nFAILED test_buggy_code.py::test_recursive_sum - IndexError: list index out of...\n2 failed, 1 passed in 0.01s\n"
+    },
+    {
+      "iteration": 2,
+      "target": "fibonacci",
+      "status": "applied",
+      "feedback": "Patch accepted",
+      "test_errors": ".FF                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 1 == 5\n     +  where 1 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 1 == 5\nE   IndexError: list index out of range\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\buggy_code.py:21: IndexError: list index out of range\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 1 == 5\nFAILED test_buggy_code.py::test_recursive_sum - IndexError: list index out of...\n2 failed, 1 passed in 0.01s\n",
+      "original_code": "\ndef factorial(n):\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers\")\n    elif n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    return n * factorial(n - 1)\n\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 3)\n\n\ndef recursive_sum(numbers):\n    if len(numbers) == 1:\n        return numbers[0]\n    return numbers[0] + recursive_sum(numbers[1:-1])\n",
+      "proposed_code": "def fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 3)",
+      "diff": "--- original\n+++ proposed\n@@ -12,7 +12,8 @@\n def fibonacci(n):\n     if n <= 1:\n         return n\n-    return fibonacci(n - 1) + fibonacci(n - 3)\n+    else:\n+        return fibonacci(n - 1) + fibonacci(n - 3)\n \n \n def recursive_sum(numbers):",
+      "post_patch_errors": ".FF                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 1 == 5\n     +  where 1 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 1 == 5\nE   IndexError: list index out of range\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\buggy_code.py:22: IndexError: list index out of range\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 1 == 5\nFAILED test_buggy_code.py::test_recursive_sum - IndexError: list index out of...\n2 failed, 1 passed in 0.01s\n"
+    },
+    {
+      "iteration": 3,
+      "target": "recursive_sum",
+      "status": "applied",
+      "feedback": "Patch accepted",
+      "test_errors": ".FF                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 1 == 5\n     +  where 1 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 1 == 5\nE   IndexError: list index out of range\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\buggy_code.py:22: IndexError: list index out of range\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 1 == 5\nFAILED test_buggy_code.py::test_recursive_sum - IndexError: list index out of...\n2 failed, 1 passed in 0.01s\n",
+      "original_code": "\ndef factorial(n):\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers\")\n    elif n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    return n * factorial(n - 1)\n\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 3)\n\n\ndef recursive_sum(numbers):\n    if len(numbers) == 1:\n        return numbers[0]\n    return numbers[0] + recursive_sum(numbers[1:-1])\n",
+      "proposed_code": "def recursive_sum(numbers):\n    if not numbers:  # Base case: if the list is empty, return 0\n        return 0\n    return numbers[0] + recursive_sum(numbers[1:])  # Recursive case: sum the first element with the result of the recursive call on the rest of the list",
+      "diff": "--- original\n+++ proposed\n@@ -17,6 +17,6 @@\n \n \n def recursive_sum(numbers):\n-    if len(numbers) == 1:\n-        return numbers[0]\n-    return numbers[0] + recursive_sum(numbers[1:-1])\n+    if not numbers:  # Base case: if the list is empty, return 0\n+        return 0\n+    return numbers[0] + recursive_sum(numbers[1:])  # Recursive case: sum the first element with the result of the recursive call on the rest of the list",
+      "post_patch_errors": ".F.                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 1 == 5\n     +  where 1 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 1 == 5\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 1 == 5\n1 failed, 2 passed in 0.01s\n"
+    },
+    {
+      "iteration": 4,
+      "target": "fibonacci",
+      "status": "applied",
+      "feedback": "Patch accepted",
+      "test_errors": ".F.                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 1 == 5\n     +  where 1 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 1 == 5\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 1 == 5\n1 failed, 2 passed in 0.01s\n",
+      "original_code": "\ndef factorial(n):\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers\")\n    elif n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    return n * factorial(n - 1)\n\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 3)\n\n\ndef recursive_sum(numbers):\n    if not numbers:  # Base case: if the list is empty, return 0\n        return 0\n    return numbers[0] + recursive_sum(numbers[1:])  # Recursive case: sum the first element with the result of the recursive call on the rest of the list\n",
+      "proposed_code": "def fibonacci(n):\n    if n <= 1:\n        return n\n    elif n == 2:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 3)",
+      "diff": "--- original\n+++ proposed\n@@ -12,6 +12,8 @@\n def fibonacci(n):\n     if n <= 1:\n         return n\n+    elif n == 2:\n+        return 1\n     else:\n         return fibonacci(n - 1) + fibonacci(n - 3)\n ",
+      "post_patch_errors": ".F.                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 3 == 5\n     +  where 3 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 3 == 5\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 3 == 5\n1 failed, 2 passed in 0.01s\n"
+    },
+    {
+      "iteration": 5,
+      "target": "fibonacci",
+      "status": "rejected",
+      "feedback": "No changes proposed",
+      "test_errors": ".F.                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 3 == 5\n     +  where 3 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 3 == 5\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 3 == 5\n1 failed, 2 passed in 0.01s\n",
+      "original_code": "\ndef factorial(n):\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers\")\n    elif n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    return n * factorial(n - 1)\n\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    elif n == 2:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 3)\n\n\ndef recursive_sum(numbers):\n    if not numbers:  # Base case: if the list is empty, return 0\n        return 0\n    return numbers[0] + recursive_sum(numbers[1:])  # Recursive case: sum the first element with the result of the recursive call on the rest of the list\n",
+      "proposed_code": "def fibonacci(n):\n    if n <= 1:\n        return n\n    elif n == 2:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 3)"
+    }
+  ],
+  "final_errors": ".F.                                                                      [100%]\n================================== FAILURES ===================================\nE   assert 3 == 5\n     +  where 3 = fibonacci(5)\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test3_Recursion\\test_buggy_code.py:15: assert 3 == 5\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_fibonacci - assert 3 == 5\n1 failed, 2 passed in 0.01s\n",
+  "rollback": true
+}
