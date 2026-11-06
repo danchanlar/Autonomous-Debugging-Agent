@@ -1,0 +1,18 @@
+{
+  "model": "qwen2.5-coder:1.5b",
+  "timestamp": "20261105_181156_176488",
+  "max_iterations": 5,
+  "status": "success",
+  "history": [
+    {
+      "iteration": 1,
+      "status": "applied",
+      "feedback": "Patch accepted",
+      "test_errors": "FFF                                                                      [100%]\n================================== FAILURES ===================================\n________________________________ test_average _________________________________\n\n    def test_average():\n>       assert calculate_average([2, 4, 6]) == 4\nE       assert 3.0 == 4\nE        +  where 3.0 = calculate_average([2, 4, 6])\n\ntest_buggy_code.py:6: AssertionError\n________________________________ test_maximum _________________________________\n\n    def test_maximum():\n>       assert find_maximum([3, 8, 2]) == 8\nE       assert 0 == 8\nE        +  where 0 = find_maximum([3, 8, 2])\n\ntest_buggy_code.py:11: AssertionError\n__________________________________ test_even __________________________________\n\n    def test_even():\n>       assert is_even(4) is True\nE       assert False is True\nE        +  where False = is_even(4)\n\ntest_buggy_code.py:16: AssertionError\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_average - assert 3.0 == 4\nFAILED test_buggy_code.py::test_maximum - assert 0 == 8\nFAILED test_buggy_code.py::test_even - assert False is True\n3 failed in 0.14s\n",
+      "original_code": "\ndef calculate_average(numbers):\n    total = 0\n    for number in numbers:\n        total += number\n    return total / (len(numbers) + 1)\n\n\ndef find_maximum(numbers):\n    maximum = 0\n    for number in numbers:\n        if number < maximum:\n            maximum = number\n    return maximum\n\n\ndef is_even(number):\n    return number % 2 == 1\n",
+      "proposed_code": "def calculate_average(numbers):\n    total = 0\n    for number in numbers:\n        total += number\n    return total / len(numbers)\n\n\ndef find_maximum(numbers):\n    maximum = numbers[0]  # Initialize maximum to the first element\n    for number in numbers:\n        if number > maximum:\n            maximum = number\n    return maximum\n\n\ndef is_even(number):\n    return number % 2 == 0\n\n\ndef test_average():\n    assert calculate_average([2, 4, 6]) == 4\n\n\ndef test_maximum():\n    assert find_maximum([3, 8, 2]) == 8\n\n\ndef test_even():\n    assert is_even(4) is True",
+      "diff": "--- original\n+++ proposed\n@@ -1,18 +1,29 @@\n-\n def calculate_average(numbers):\n     total = 0\n     for number in numbers:\n         total += number\n-    return total / (len(numbers) + 1)\n+    return total / len(numbers)\n \n \n def find_maximum(numbers):\n-    maximum = 0\n+    maximum = numbers[0]  # Initialize maximum to the first element\n     for number in numbers:\n-        if number < maximum:\n+        if number > maximum:\n             maximum = number\n     return maximum\n \n \n def is_even(number):\n-    return number % 2 == 1\n+    return number % 2 == 0\n+\n+\n+def test_average():\n+    assert calculate_average([2, 4, 6]) == 4\n+\n+\n+def test_maximum():\n+    assert find_maximum([3, 8, 2]) == 8\n+\n+\n+def test_even():\n+    assert is_even(4) is True"
+    }
+  ],
+  "rollback": false
+}
