@@ -1,0 +1,27 @@
+{
+  "version": "3.6",
+  "model": "qwen2.5-coder:1.5b",
+  "experiment": "test5",
+  "max_iterations": 7,
+  "max_retries": 3,
+  "status": "success",
+  "history": [
+    {
+      "iteration": 1,
+      "target": "binary_search",
+      "dependencies": [],
+      "status": "applied",
+      "attempts": [
+        {
+          "retry": 1,
+          "proposed_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n\n    while left <= right:\n        mid = (left + right) // 2\n\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1",
+          "status": "applied",
+          "post_patch_errors": "......                                                                   [100%]\n6 passed in 0.02s\n",
+          "diff": "--- original\n+++ patched\n@@ -8,8 +8,8 @@\n         if arr[mid] == target:\n             return mid\n         elif arr[mid] < target:\n+            left = mid + 1\n+        else:\n             right = mid - 1\n-        else:\n-            left = mid + 1\n \n     return -1",
+          "feedback": "All tests passed"
+        }
+      ]
+    }
+  ],
+  "rollback": false
+}
