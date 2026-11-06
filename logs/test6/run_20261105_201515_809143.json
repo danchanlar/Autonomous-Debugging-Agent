@@ -1,0 +1,11 @@
+{
+  "version": "3.6",
+  "model": "qwen2.5-coder:1.5b",
+  "experiment": "test6",
+  "max_iterations": 7,
+  "max_retries": 3,
+  "status": "error",
+  "history": [],
+  "final_errors": ".FF.F                                                                    [100%]\n================================== FAILURES ===================================\nE   assert 50 == 150\n     +  where 50 = get_balance()\n     +    where get_balance = <buggy_code.BankAccount object at 0x000000000467C050>.get_balance\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test6_Stateful_class\\test_buggy_code.py:12: assert 50 == 150\nE   assert 140 == 60\n     +  where 140 = get_balance()\n     +    where get_balance = <buggy_code.BankAccount object at 0x000000000467C690>.get_balance\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test6_Stateful_class\\test_buggy_code.py:18: assert 140 == 60\nE   assert 80 == 120\n     +  where 80 = get_balance()\n     +    where get_balance = <buggy_code.BankAccount object at 0x000000000467E3D0>.get_balance\nC:\\Users\\Administrator\\Desktop\\debugging-agent\\tests\\test6_Stateful_class\\test_buggy_code.py:31: assert 80 == 120\n=========================== short test summary info ===========================\nFAILED test_buggy_code.py::test_deposit - assert 50 == 150\nFAILED test_buggy_code.py::test_withdraw - assert 140 == 60\nFAILED test_buggy_code.py::test_multiple_operations - assert 80 == 120\n3 failed, 2 passed in 0.02s\n",
+  "rollback": true
+}
